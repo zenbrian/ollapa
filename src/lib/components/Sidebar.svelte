@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { XMarkIcon } from 'heroicons-svelte/20/solid';
+	import { XMarkIcon, Cog6ToothIcon } from 'heroicons-svelte/20/solid';
 	import {
 		chats,
 		isLoading,
@@ -38,10 +38,17 @@
 
 <aside class="w-64 bg-neutral-900">
 	<div class="p-4">
-		<div class={`mb-4 ${$page.route.id === '/' ? 'invisible' : 'visible'}`}>
+		<div class="mb-4 flex gap-1">
+			<a
+				title="Settings"
+				href="/settings"
+				class="flex w-10 items-center justify-center rounded hover:bg-neutral-800"
+			>
+				<Cog6ToothIcon class="h-4 w-4" />
+			</a>
 			<a
 				href="/"
-				class="mt-2 block w-full rounded bg-blue-500 p-2 text-center text-white hover:bg-blue-600"
+				class={`block w-full rounded bg-blue-500 p-2 text-center text-white hover:bg-blue-600 ${$page.route.id === '/' ? 'invisible' : 'visible'}`}
 			>
 				New chat
 			</a>

@@ -1,4 +1,5 @@
-import { writable } from 'svelte/store';
+import { browser } from '$app/environment';
+import { writable, get } from 'svelte/store';
 import {
 	getChats as dbGetChats,
 	addChat as dbAddChat,
@@ -10,8 +11,16 @@ import {
 export const chats = writable([]);
 
 export const isLoading = writable(true);
-
 export const availableModels = writable([]);
+export const apiUrl = writable(
+	browser ? localStorage.getItem('apiUrl') || 'http://localhost:11434' : 'http://localhost:11434'
+);
+
+if (browser) {
+	apiUrl.subscribe((value) => {
+		localStorage.setItem('apiUrl', value);
+	});
+}
 
 export async function getChats() {
 	isLoading.set(true);
@@ -26,8 +35,7 @@ export async function getChats() {
 
 export async function fetchAvailableModels() {
 	try {
-		// TODO: allow user to configure URL
-		const response = await fetch('http://localhost:11434/api/tags');
+		const response = await fetch(`${get(apiUrl)}/api/tags`);
 		if (!response.ok) {
 			throw new Error('Failed to fetch available models');
 		}
@@ -94,8 +102,7 @@ export async function addMessage(chatId, message) {
  * @returns
  */
 export async function getChatCompletion(model, messages) {
-	// TODO: allow user to configure URL
-	const response = await fetch('http://localhost:11434/api/chat', {
+	const response = await fetch(`${get(apiUrl)}/api/chat`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
