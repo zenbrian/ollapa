@@ -4,9 +4,6 @@ import { getChats, addChat, deleteChat } from '$lib/db';
 /** @type {import('svelte/store').Writable<App.Chat[]>} */
 export const chats = writable([]);
 
-/** @type {import('svelte/store').Writable<IDBValidKey | null>} */
-export const selectedChatId = writable(null);
-
 export const isLoading = writable(true);
 
 export async function loadChats() {
@@ -45,7 +42,6 @@ export async function removeChat(id) {
 	try {
 		await deleteChat(id);
 		chats.update((cs) => cs.filter((chat) => chat.id !== id));
-		selectedChatId.update((currentId) => (currentId === id ? null : currentId));
 	} catch (error) {
 		console.error('Failed to delete conversation:', error);
 		throw error;

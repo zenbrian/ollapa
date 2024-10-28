@@ -4,13 +4,13 @@ Ollama client built with Svelte 5 and SvelteKit.
 
 ## To Do
 
-- Use SvelteKit routing to show chat based on ID in URL
 - Main chat interface
 - Create button -> New chat. Auto-title from first message
 - List and select model
 - Default to new chat when no chat selected
 - Look & feel, favicon
 - Deployment, adapter
+- More complete JSDoc comments
 - Complete README & package.json
 - Other TODO comments in code
 

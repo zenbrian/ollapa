@@ -1,13 +1,8 @@
 <script>
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import {
-		chats,
-		selectedChatId,
-		isLoading,
-		loadChats,
-		createChat,
-		removeChat
-	} from '$lib/stores/chats';
+	import { chats, isLoading, loadChats, createChat, removeChat } from '$lib/stores/chats';
+	import { goto } from '$app/navigation';
 
 	let newChatTitle = '';
 
@@ -34,6 +29,10 @@
 	async function handleDeleteChat(id) {
 		try {
 			await removeChat(id);
+
+			if ($page.params.chatId === id) {
+				goto('/');
+			}
 		} catch (error) {
 			console.error('Failed to delete conversation:', error);
 			// TODO: show error to user
@@ -65,17 +64,16 @@
 			<div class="flex flex-col gap-1">
 				{#each $chats as chat (chat.id)}
 					<div
-						class="flex rounded {$selectedChatId === chat.id ? 'bg-gray-200' : 'hover:bg-gray-100'}"
+						class="flex rounded {$page.params.chatId === chat.id
+							? 'bg-gray-200'
+							: 'hover:bg-gray-100'}"
 					>
-						<button
-							class="flex-grow cursor-pointer p-2 text-left"
-							on:click={() => selectedChatId.set(chat.id)}
-						>
+						<a class="flex-grow cursor-pointer p-2 text-left" href={`/chat/${chat.id}`}>
 							{chat.title}
-						</button>
+						</a>
 
 						<button
-							on:click={(event) => handleDeleteChat(chat.id)}
+							on:click={() => handleDeleteChat(chat.id)}
 							class="ml-2 flex-none rounded px-2 py-1 text-gray-400 hover:text-black"
 							title="Delete chat"
 						>
