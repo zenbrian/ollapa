@@ -4,7 +4,6 @@ Ollama client built with Svelte 5 and SvelteKit.
 
 ## To Do
 
-- Convert chat IDs to UUID
 - Use SvelteKit routing to show chat based on ID in URL
 - Main chat interface
 - Create button -> New chat. Auto-title from first message

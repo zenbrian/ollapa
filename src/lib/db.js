@@ -11,7 +11,7 @@ export function initDB() {
 	if (!dbPromise) {
 		dbPromise = openDB(DB_NAME, DB_VERSION, {
 			upgrade(db) {
-				db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+				db.createObjectStore(STORE_NAME, { keyPath: 'id' });
 			}
 		});
 	}
@@ -30,7 +30,7 @@ export async function getChats() {
  */
 export async function addChat(title) {
 	const db = await initDB();
-	const newChat = { title, createdAt: new Date() };
+	const newChat = { id: crypto.randomUUID(), title, createdAt: new Date() };
 	const id = await db.add(STORE_NAME, newChat);
 	return { ...newChat, id };
 }
