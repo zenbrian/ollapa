@@ -17,9 +17,16 @@ declare global {
 		interface Chat {
 			id: IDBValidKey;
 			title: string;
+			model: string;
 			createdAt: Date;
 			modifiedAt: Date;
 			messages: Message[];
+		}
+	}
+
+	namespace Ollama {
+		interface Model {
+			name: string;
 		}
 	}
 }

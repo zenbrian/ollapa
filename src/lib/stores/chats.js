@@ -11,6 +11,8 @@ export const chats = writable([]);
 
 export const isLoading = writable(true);
 
+export const availableModels = writable([]);
+
 export async function getChats() {
 	isLoading.set(true);
 	try {
@@ -22,14 +24,30 @@ export async function getChats() {
 	}
 }
 
+export async function fetchAvailableModels() {
+	try {
+		// TODO: allow user to configure URL
+		const response = await fetch('http://localhost:11434/api/tags');
+		if (!response.ok) {
+			throw new Error('Failed to fetch available models');
+		}
+		const data = await response.json();
+		availableModels.set(data.models.map((/** @type {Ollama.Model} */ model) => model.name));
+	} catch (error) {
+		console.error('Error fetching available models:', error);
+		availableModels.set([]);
+	}
+}
+
 /**
  *
  * @param {string} title
+ * @param {string} model
  * @returns {Promise<App.Chat>}
  */
-export async function addChat(title) {
+export async function addChat(title, model) {
 	try {
-		const newChat = await dbAddChat(title);
+		const newChat = await dbAddChat(title, model);
 		chats.update((cs) => [...cs, newChat]);
 		return newChat;
 	} catch (error) {

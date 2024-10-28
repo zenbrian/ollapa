@@ -5,7 +5,6 @@ Ollama client built with Svelte 5 and SvelteKit.
 ## To Do
 
 - Interface with Ollama API
-- List and select model
 - Look & feel, favicon
 - Deployment, adapter
 - More complete JSDoc comments

@@ -1,11 +1,28 @@
 <script>
+	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { addMessage as stAddMessage, addChat as stAddChat } from '$lib/stores/chats';
+	import {
+		addMessage as stAddMessage,
+		addChat as stAddChat,
+		availableModels as stAvailableModels,
+		fetchAvailableModels as stFetchAvailableModels
+	} from '$lib/stores/chats';
 
 	/** @type {{ selectedChat: App.Chat|null }}*/
 	let { selectedChat } = $props();
 
+	let selectedModel = $state('');
 	let newMessageContent = $state('');
+
+	stAvailableModels.subscribe((models) => {
+		selectedModel = models[0];
+	});
+
+	onMount(async () => {
+		if (!selectedChat) {
+			await stFetchAvailableModels();
+		}
+	});
 
 	async function addMessage() {
 		if (newMessageContent.trim() && selectedChat) {
@@ -34,7 +51,7 @@
 	async function addChat() {
 		if (newMessageContent.trim()) {
 			try {
-				const chat = await stAddChat(newMessageContent);
+				const chat = await stAddChat(newMessageContent, selectedModel);
 				selectedChat = chat;
 				goto(`/chat/${chat.id}`);
 
@@ -55,7 +72,19 @@
 	}
 </script>
 
-<div class="flex h-full flex-col max-w-2xl mx-auto">
+<div class="mx-auto flex h-full max-w-2xl flex-col">
+	<div class="mb-4">
+		{#if selectedChat}
+			Using model {selectedChat.model}
+		{:else}
+			<select bind:value={selectedModel}>
+				{#each $stAvailableModels as model}
+					<option>{model}</option>
+				{/each}
+			</select>
+		{/if}
+	</div>
+
 	<div class="mb-4 flex-grow overflow-y-auto">
 		{#if selectedChat}
 			{#each selectedChat.messages as message}

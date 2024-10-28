@@ -26,12 +26,20 @@ export async function getChats() {
 /**
  *
  * @param {string} title
+ * @param {string} model
  * @returns {Promise<App.Chat>}
  */
-export async function addChat(title) {
+export async function addChat(title, model) {
 	const db = await initDB();
 	const now = new Date();
-	const newChat = { id: crypto.randomUUID(), title, createdAt: now, modifiedAt: now, messages: [] };
+	const newChat = {
+		id: crypto.randomUUID(),
+		title,
+		model,
+		createdAt: now,
+		modifiedAt: now,
+		messages: []
+	};
 	const id = await db.add(STORE_NAME, newChat);
 	return { ...newChat, id };
 }

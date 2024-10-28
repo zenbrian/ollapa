@@ -13,7 +13,9 @@
 		stGetChats();
 	});
 
-	let sortedChats = $derived($chats.sort((a, b) => b.modifiedAt.getTime() - a.modifiedAt.getTime()))
+	let sortedChats = $derived(
+		$chats.sort((a, b) => b.modifiedAt.getTime() - a.modifiedAt.getTime())
+	);
 
 	/**
 	 *
