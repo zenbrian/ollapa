@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { getChats, addChat, deleteChat } from '$lib/db';
+import { getChats, addChat, deleteChat, addMessage } from '$lib/db';
 
 /** @type {import('svelte/store').Writable<App.Chat[]>} */
 export const chats = writable([]);
@@ -44,6 +44,23 @@ export async function removeChat(id) {
 		chats.update((cs) => cs.filter((chat) => chat.id !== id));
 	} catch (error) {
 		console.error('Failed to delete conversation:', error);
+		throw error;
+	}
+}
+
+/**
+ *
+ * @param {IDBValidKey} chatId
+ * @param {App.Message} message
+ * @returns {Promise<App.Chat>}
+ */
+export async function addMessageToChat(chatId, message) {
+	try {
+		const updatedChat = await addMessage(chatId, message);
+		chats.update((cs) => cs.map((chat) => (chat.id === chatId ? updatedChat : chat)));
+		return updatedChat;
+	} catch (error) {
+		console.error('Failed to add message:', error);
 		throw error;
 	}
 }

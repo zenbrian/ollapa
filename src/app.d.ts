@@ -8,10 +8,18 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 
+		interface Message {
+			role: string;
+			content: string;
+			timestamp: Date;
+		}
+
 		interface Chat {
 			id: IDBValidKey;
 			title: string;
 			createdAt: Date;
+			modifiedAt: Date;
+			messages: Message[];
 		}
 	}
 }
