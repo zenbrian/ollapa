@@ -55,7 +55,7 @@
 	}
 </script>
 
-<div class="flex h-full flex-col">
+<div class="flex h-full flex-col max-w-2xl mx-auto">
 	<div class="mb-4 flex-grow overflow-y-auto">
 		{#if selectedChat}
 			{#each selectedChat.messages as message}
@@ -81,6 +81,7 @@
 			onkeypress={(e) => e.key === 'Enter' && handleSend()}
 		/>
 		<button onclick={handleSend} class="rounded-r bg-blue-500 p-2 text-white hover:bg-blue-600">
+			<!-- TODO: send svg icon -->
 			Send
 		</button>
 	</div>

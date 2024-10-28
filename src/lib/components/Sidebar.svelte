@@ -35,7 +35,7 @@
 
 <aside class="w-64 border-r bg-white">
 	<div class="p-4">
-		<div class="mb-4">
+		<div class={`mb-4 ${$page.route.id === '/' ? 'invisible' : 'visible'}`}>
 			<a
 				href="/"
 				class="mt-2 block w-full rounded bg-blue-500 p-2 text-center text-white hover:bg-blue-600"
