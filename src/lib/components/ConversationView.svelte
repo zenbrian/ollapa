@@ -12,6 +12,9 @@
 	/** @type {{ selectedChat: App.Chat|null }}*/
 	let { selectedChat } = $props();
 
+	/** @type {HTMLDivElement} */
+	let chatContainer;
+
 	let selectedModel = $state('');
 	let newMessageContent = $state('');
 	let isTyping = $state(false);
@@ -53,6 +56,12 @@
 				isTyping = false;
 				currentResponse = '';
 			}
+		}
+	});
+
+	$effect(() => {
+		if (chatContainer && (currentResponse || selectedChat?.messages)) {
+			chatContainer.scrollTop = chatContainer.scrollHeight;
 		}
 	});
 
@@ -133,7 +142,7 @@
 		{/if}
 	</div>
 
-	<div class="mb-4 flex-grow overflow-y-auto">
+	<div bind:this={chatContainer} class="mb-4 flex-grow overflow-y-auto">
 		{#if selectedChat}
 			{#each selectedChat.messages as message}
 				<div class="mb-2 {message.role === 'user' ? 'text-right' : 'text-left'}">
