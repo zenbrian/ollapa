@@ -13,6 +13,8 @@
 		stGetChats();
 	});
 
+	let sortedChats = $derived($chats.sort((a, b) => b.modifiedAt.getTime() - a.modifiedAt.getTime()))
+
 	/**
 	 *
 	 * @param {IDBValidKey} id
@@ -46,7 +48,7 @@
 			<p>Loading chats...</p>
 		{:else}
 			<div class="flex flex-col gap-1">
-				{#each $chats as chat (chat.id)}
+				{#each sortedChats as chat (chat.id)}
 					<div
 						class="flex rounded {$page.params.chatId === chat.id
 							? 'bg-gray-200'
@@ -57,7 +59,7 @@
 						</a>
 
 						<button
-							on:click={() => handleDeleteChat(chat.id)}
+							onclick={() => handleDeleteChat(chat.id)}
 							class="ml-2 flex-none rounded px-2 py-1 text-gray-400 hover:text-black"
 							title="Delete chat"
 						>
