@@ -1,4 +1,5 @@
 <script>
+	import '@fontsource-variable/inter';
 	import '../app.css';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	let { children } = $props();

@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { marked } from 'marked';
+	import DOMPurify from 'dompurify';
 	import { PaperAirplaneIcon } from 'heroicons-svelte/20/solid';
 	import ThinkingSpinner from './ThinkingSpinner.svelte';
 	import {
@@ -66,6 +68,15 @@
 			chatContainer.scrollTop = chatContainer.scrollHeight;
 		}
 	});
+
+	/**
+	 *
+	 * @param {string} content
+	 */
+	function parseMarkdown(content) {
+		const rawHtml = String(marked(content));
+		return DOMPurify.sanitize(rawHtml);
+	}
 
 	async function addMessage() {
 		if (newMessageContent.trim() && selectedChat) {
@@ -152,17 +163,23 @@
 				{#each selectedChat.messages as message}
 					<div class="mb-2 {message.role === 'user' ? 'text-right' : 'text-left'}">
 						<span
-							class="inline-block rounded p-2 {message.role === 'user' ? 'bg-neutral-700' : ''}"
+							class="prose prose-neutral prose-invert inline-block rounded p-2 {message.role ===
+							'user'
+								? 'bg-neutral-700'
+								: ''}"
 						>
-							{message.content}
+							<!-- parseMarkdown() santizes HTML with DOMPurify. Using @html is safe with it -->
+							<!-- eslint-disable svelte/no-at-html-tags -->
+							{@html parseMarkdown(message.content)}
 						</span>
 					</div>
 				{/each}
+
 				{#if isTyping}
 					<div class="mb-2 text-left">
-						<span class="inline-block p-2">
+						<span class="prose prose-neutral prose-invert inline-block p-2">
 							{#if currentResponse}
-								{currentResponse}
+								{@html parseMarkdown(currentResponse)}
 							{:else}
 								Thinking
 								<ThinkingSpinner class="inline h-4 w-4" />
