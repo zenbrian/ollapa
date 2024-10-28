@@ -86,3 +86,56 @@ export async function addMessage(chatId, message) {
 		throw error;
 	}
 }
+
+/**
+ *
+ * @param {string} model
+ * @param {App.Message[]} messages
+ * @returns
+ */
+export async function getChatCompletion(model, messages) {
+	// TODO: allow user to configure URL
+	const response = await fetch('http://localhost:11434/api/chat', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ model, messages })
+	});
+
+	if (!response.ok) {
+		throw new Error('Failed to get chat completion');
+	}
+
+	if (!response.body) {
+		throw new Error('Response body is null');
+	}
+
+	const reader = response.body.getReader();
+	const decoder = new TextDecoder();
+	let chatCompletion = '';
+
+	while (true) {
+		const { value, done } = await reader.read();
+		if (done) break;
+
+		const chunk = decoder.decode(value);
+		const lines = chunk.split('\n');
+
+		for (const line of lines) {
+			if (line.trim() === '') continue;
+
+			const data = JSON.parse(line);
+			if (!data.done) {
+				chatCompletion += data.message?.content || '';
+
+				// Callback to update the UI in real-time
+				if (typeof arguments[2] === 'function') {
+					arguments[2](chatCompletion);
+				}
+			}
+		}
+	}
+
+	return chatCompletion;
+}

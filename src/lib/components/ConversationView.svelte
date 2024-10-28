@@ -5,7 +5,8 @@
 		addMessage as stAddMessage,
 		addChat as stAddChat,
 		availableModels as stAvailableModels,
-		fetchAvailableModels as stFetchAvailableModels
+		fetchAvailableModels as stFetchAvailableModels,
+		getChatCompletion as stGetChatCompletion
 	} from '$lib/stores/chats';
 
 	/** @type {{ selectedChat: App.Chat|null }}*/
@@ -13,6 +14,8 @@
 
 	let selectedModel = $state('');
 	let newMessageContent = $state('');
+	let isTyping = $state(false);
+	let currentResponse = $state('');
 
 	stAvailableModels.subscribe((models) => {
 		selectedModel = models[0];
@@ -21,6 +24,35 @@
 	onMount(async () => {
 		if (!selectedChat) {
 			await stFetchAvailableModels();
+		}
+
+		if (selectedChat && selectedChat.messages.length === 1) {
+			// This chat was just created. Get chat completion for first message.
+
+			try {
+				isTyping = true;
+				currentResponse = '';
+
+				const chatCompletion = await stGetChatCompletion(
+					selectedChat.model,
+					selectedChat.messages,
+					(/** @type {string} **/ partialResponse) => {
+						currentResponse = partialResponse;
+					}
+				);
+
+				await stAddMessage(selectedChat.id, {
+					role: 'assistant',
+					content: chatCompletion,
+					timestamp: new Date()
+				});
+			} catch (error) {
+				console.error('Failed to get chat completion:', error);
+				// TODO: show error to user
+			} finally {
+				isTyping = false;
+				currentResponse = '';
+			}
 		}
 	});
 
@@ -34,16 +66,28 @@
 				});
 
 				newMessageContent = '';
+				isTyping = true;
+				currentResponse = '';
 
-				// TODO: Replace mock with API call and return value
+				const chatCompletion = await stGetChatCompletion(
+					selectedChat.model,
+					selectedChat.messages,
+					(/** @type {string} **/ partialResponse) => {
+						currentResponse = partialResponse;
+					}
+				);
+
 				await stAddMessage(selectedChat.id, {
 					role: 'assistant',
-					content: 'This is a mock response from the AI assistant.',
+					content: chatCompletion,
 					timestamp: new Date()
 				});
 			} catch (error) {
 				console.error('Failed to send message:', error);
 				// TODO: show error to user
+			} finally {
+				isTyping = false;
+				currentResponse = '';
 			}
 		}
 	}
@@ -52,10 +96,14 @@
 		if (newMessageContent.trim()) {
 			try {
 				const chat = await stAddChat(newMessageContent, selectedModel);
-				selectedChat = chat;
-				goto(`/chat/${chat.id}`);
 
-				addMessage();
+				await stAddMessage(chat.id, {
+					role: 'user',
+					content: newMessageContent,
+					timestamp: new Date()
+				});
+
+				await goto(`/chat/${chat.id}`);
 			} catch (error) {
 				console.error('Failed to create chat:', error);
 				// TODO: show error to user
@@ -75,7 +123,7 @@
 <div class="mx-auto flex h-full max-w-2xl flex-col">
 	<div class="mb-4">
 		{#if selectedChat}
-			Using model {selectedChat.model}
+			Using {selectedChat.model}
 		{:else}
 			<select bind:value={selectedModel}>
 				{#each $stAvailableModels as model}
@@ -98,6 +146,14 @@
 					</span>
 				</div>
 			{/each}
+			{#if isTyping}
+				<div class="mb-2 text-left">
+					<span class="inline-block rounded bg-gray-200 p-2">
+						<!--- TODO: thinking animation -->
+						{currentResponse || 'Thinking...'}
+					</span>
+				</div>
+			{/if}
 		{/if}
 	</div>
 
