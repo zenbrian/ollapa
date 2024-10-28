@@ -4,11 +4,9 @@ Ollama client built with Svelte 5 and SvelteKit.
 
 ## To Do
 
-- Create button -> New chat. Auto-title from first message
 - Consistent function names across db API and chats store
 - Interface with Ollama API
 - List and select model
-- Default to new chat when no chat selected
 - Look & feel, favicon
 - Deployment, adapter
 - More complete JSDoc comments
