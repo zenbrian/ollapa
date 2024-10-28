@@ -8,7 +8,7 @@
 	<title>Ollama Client</title>
 </svelte:head>
 
-<div class="flex h-screen bg-gray-100">
+<div class="flex h-screen bg-neutral-800 text-neutral-100">
 	<Sidebar />
 	<main class="flex-1 overflow-y-auto p-4">
 		{@render children()}

@@ -1,13 +1,14 @@
 <script>
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { XMarkIcon } from 'heroicons-svelte/20/solid';
 	import {
 		chats,
 		isLoading,
 		getChats as stGetChats,
 		deleteChat as stDeleteChat
 	} from '$lib/stores/chats';
-	import { goto } from '$app/navigation';
 
 	onMount(() => {
 		stGetChats();
@@ -35,7 +36,7 @@
 	}
 </script>
 
-<aside class="w-64 border-r bg-white">
+<aside class="w-64 bg-neutral-900">
 	<div class="p-4">
 		<div class={`mb-4 ${$page.route.id === '/' ? 'invisible' : 'visible'}`}>
 			<a
@@ -53,8 +54,8 @@
 				{#each sortedChats as chat (chat.id)}
 					<div
 						class="flex rounded {$page.params.chatId === chat.id
-							? 'bg-gray-200'
-							: 'hover:bg-gray-100'}"
+							? 'bg-neutral-800'
+							: 'hover:bg-neutral-800'}"
 					>
 						<a class="flex-grow cursor-pointer truncate p-2 text-left" href={`/chat/${chat.id}`}>
 							{chat.title}
@@ -62,11 +63,10 @@
 
 						<button
 							onclick={() => handleDeleteChat(chat.id)}
-							class="ml-2 flex-none rounded px-2 py-1 text-gray-400 hover:text-black"
+							class="ml-2 flex-none rounded px-2 py-1 text-neutral-500 hover:text-white"
 							title="Delete chat"
 						>
-							<!-- TODO: Proper X SVG icon -->
-							&times;
+							<XMarkIcon class="h-4 w-4" />
 						</button>
 					</div>
 				{/each}

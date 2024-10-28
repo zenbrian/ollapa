@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { PaperAirplaneIcon } from 'heroicons-svelte/20/solid';
+	import ThinkingSpinner from './ThinkingSpinner.svelte';
 	import {
 		addMessage as stAddMessage,
 		addChat as stAddChat,
@@ -129,12 +131,14 @@
 	}
 </script>
 
-<div class="mx-auto flex h-full max-w-2xl flex-col">
+<div class="flex h-full flex-col">
 	<div class="mb-4">
 		{#if selectedChat}
-			Using {selectedChat.model}
+			<div class="p-2 text-neutral-500">
+				{selectedChat.model}
+			</div>
 		{:else}
-			<select bind:value={selectedModel}>
+			<select class="rounded bg-neutral-700 p-2" bind:value={selectedModel}>
 				{#each $stAvailableModels as model}
 					<option>{model}</option>
 				{/each}
@@ -144,39 +148,46 @@
 
 	<div bind:this={chatContainer} class="mb-4 flex-grow overflow-y-auto">
 		{#if selectedChat}
-			{#each selectedChat.messages as message}
-				<div class="mb-2 {message.role === 'user' ? 'text-right' : 'text-left'}">
-					<span
-						class="inline-block rounded p-2 {message.role === 'user'
-							? 'bg-blue-500 text-white'
-							: 'bg-gray-200'}"
-					>
-						{message.content}
-					</span>
-				</div>
-			{/each}
-			{#if isTyping}
-				<div class="mb-2 text-left">
-					<span class="inline-block rounded bg-gray-200 p-2">
-						<!--- TODO: thinking animation -->
-						{currentResponse || 'Thinking...'}
-					</span>
-				</div>
-			{/if}
+			<div class="mx-auto max-w-2xl">
+				{#each selectedChat.messages as message}
+					<div class="mb-2 {message.role === 'user' ? 'text-right' : 'text-left'}">
+						<span
+							class="inline-block rounded p-2 {message.role === 'user' ? 'bg-neutral-700' : ''}"
+						>
+							{message.content}
+						</span>
+					</div>
+				{/each}
+				{#if isTyping}
+					<div class="mb-2 text-left">
+						<span class="inline-block p-2">
+							{#if currentResponse}
+								{currentResponse}
+							{:else}
+								Thinking
+								<ThinkingSpinner class="inline h-4 w-4" />
+							{/if}
+						</span>
+					</div>
+				{/if}
+			</div>
 		{/if}
 	</div>
 
-	<div class="flex">
+	<div class="mx-auto flex w-full max-w-2xl">
 		<input
 			type="text"
 			bind:value={newMessageContent}
 			placeholder="Type your message..."
-			class="flex-grow rounded-l border p-2"
+			class="flex-grow rounded-l bg-neutral-700 p-2 outline-none"
 			onkeypress={(e) => e.key === 'Enter' && handleSend()}
 		/>
-		<button onclick={handleSend} class="rounded-r bg-blue-500 p-2 text-white hover:bg-blue-600">
-			<!-- TODO: send svg icon -->
-			Send
+		<button
+			onclick={handleSend}
+			title="Send"
+			class="rounded-r bg-blue-500 p-2 text-white hover:bg-blue-600"
+		>
+			<PaperAirplaneIcon class="h-6 w-6" />
 		</button>
 	</div>
 </div>
