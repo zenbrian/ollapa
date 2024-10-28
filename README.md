@@ -5,9 +5,14 @@ Ollama client built with Svelte 5 and SvelteKit.
 ## To Do
 
 - Deploy
+- Cancel completion
 - More complete JSDoc comments
 - Complete README & package.json
 - Other TODO comments in code
+- Splash screen
+- Storage meter
+- Conditional autoscroll
+- Line breaks in input
 
 ## License
 
