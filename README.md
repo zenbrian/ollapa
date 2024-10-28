@@ -4,7 +4,6 @@ Ollama client built with Svelte 5 and SvelteKit.
 
 ## To Do
 
-- Consistent function names across db API and chats store
 - Interface with Ollama API
 - List and select model
 - Look & feel, favicon

@@ -1,11 +1,16 @@
 <script>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import { chats, isLoading, loadChats, removeChat } from '$lib/stores/chats';
+	import {
+		chats,
+		isLoading,
+		getChats as stGetChats,
+		deleteChat as stDeleteChat
+	} from '$lib/stores/chats';
 	import { goto } from '$app/navigation';
 
 	onMount(() => {
-		loadChats();
+		stGetChats();
 	});
 
 	/**
@@ -14,7 +19,7 @@
 	 */
 	async function handleDeleteChat(id) {
 		try {
-			await removeChat(id);
+			await stDeleteChat(id);
 
 			if ($page.params.chatId === id) {
 				goto('/');

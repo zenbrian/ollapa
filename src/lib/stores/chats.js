@@ -1,16 +1,20 @@
 import { writable } from 'svelte/store';
-import { getChats, addChat, deleteChat, addMessage } from '$lib/db';
+import {
+	getChats as dbGetChats,
+	addChat as dbAddChat,
+	deleteChat as dbDeleteChat,
+	addMessage as dbAddMessage
+} from '$lib/db';
 
 /** @type {import('svelte/store').Writable<App.Chat[]>} */
 export const chats = writable([]);
 
 export const isLoading = writable(true);
 
-export async function loadChats() {
+export async function getChats() {
 	isLoading.set(true);
 	try {
-		const loadedChats = await getChats();
-		chats.set(loadedChats);
+		chats.set(await dbGetChats());
 	} catch (error) {
 		console.error('Failed to load chats:', error);
 	} finally {
@@ -23,9 +27,9 @@ export async function loadChats() {
  * @param {string} title
  * @returns {Promise<App.Chat>}
  */
-export async function createChat(title) {
+export async function addChat(title) {
 	try {
-		const newChat = await addChat(title);
+		const newChat = await dbAddChat(title);
 		chats.update((cs) => [...cs, newChat]);
 		return newChat;
 	} catch (error) {
@@ -38,9 +42,9 @@ export async function createChat(title) {
  *
  * @param {IDBValidKey} id
  */
-export async function removeChat(id) {
+export async function deleteChat(id) {
 	try {
-		await deleteChat(id);
+		await dbDeleteChat(id);
 		chats.update((cs) => cs.filter((chat) => chat.id !== id));
 	} catch (error) {
 		console.error('Failed to delete conversation:', error);
@@ -54,9 +58,9 @@ export async function removeChat(id) {
  * @param {App.Message} message
  * @returns {Promise<App.Chat>}
  */
-export async function addMessageToChat(chatId, message) {
+export async function addMessage(chatId, message) {
 	try {
-		const updatedChat = await addMessage(chatId, message);
+		const updatedChat = await dbAddMessage(chatId, message);
 		chats.update((cs) => cs.map((chat) => (chat.id === chatId ? updatedChat : chat)));
 		return updatedChat;
 	} catch (error) {

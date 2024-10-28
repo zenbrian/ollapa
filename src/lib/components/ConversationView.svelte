@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { addMessageToChat, createChat } from '$lib/stores/chats';
+	import { addMessage as stAddMessage, addChat as stAddChat } from '$lib/stores/chats';
 
 	/** @type {{ selectedChat: App.Chat|null }}*/
 	let { selectedChat } = $props();
@@ -10,7 +10,7 @@
 	async function addMessage() {
 		if (newMessageContent.trim() && selectedChat) {
 			try {
-				await addMessageToChat(selectedChat.id, {
+				await stAddMessage(selectedChat.id, {
 					role: 'user',
 					content: newMessageContent,
 					timestamp: new Date()
@@ -19,7 +19,7 @@
 				newMessageContent = '';
 
 				// TODO: Replace mock with API call and return value
-				await addMessageToChat(selectedChat.id, {
+				await stAddMessage(selectedChat.id, {
 					role: 'assistant',
 					content: 'This is a mock response from the AI assistant.',
 					timestamp: new Date()
@@ -34,7 +34,7 @@
 	async function addChat() {
 		if (newMessageContent.trim()) {
 			try {
-				const chat = await createChat(newMessageContent);
+				const chat = await stAddChat(newMessageContent);
 				selectedChat = chat;
 				goto(`/chat/${chat.id}`);
 
@@ -46,7 +46,7 @@
 		}
 	}
 
-	async function handleSendMessage() {
+	async function handleSend() {
 		if (selectedChat) {
 			addMessage();
 		} else {
@@ -67,8 +67,6 @@
 					>
 						{message.content}
 					</span>
-					<br />
-					<small class="text-gray-500">{new Date(message.timestamp).toLocaleString()}</small>
 				</div>
 			{/each}
 		{/if}
@@ -80,12 +78,9 @@
 			bind:value={newMessageContent}
 			placeholder="Type your message..."
 			class="flex-grow rounded-l border p-2"
-			onkeypress={(e) => e.key === 'Enter' && handleSendMessage()}
+			onkeypress={(e) => e.key === 'Enter' && handleSend()}
 		/>
-		<button
-			onclick={handleSendMessage}
-			class="rounded-r bg-blue-500 p-2 text-white hover:bg-blue-600"
-		>
+		<button onclick={handleSend} class="rounded-r bg-blue-500 p-2 text-white hover:bg-blue-600">
 			Send
 		</button>
 	</div>
