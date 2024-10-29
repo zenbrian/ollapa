@@ -2,9 +2,64 @@
 
 Ollama client built with Svelte 5 and SvelteKit.
 
+## Usage
+
+When accessing from the web, you must set the `OLLAMA_ORIGINS` environment
+variable so that your local Ollama REST API server accepts connections from the
+external domain.
+
+### macOS
+
+Use `launchctl` to set the environment variable.
+
+```sh
+launchctl setenv OLLAMA_ORIGINS "https://travishorn.github.io"
+```
+
+### Linux
+
+1. Open the service file.
+
+```sh
+systemctl edit ollama.service
+```
+
+2. Edit the `[Service]` section to set the environment variable.
+
+```
+[Service]
+Environment="OLLAMA_ORIGINS=https://travishorn.github.io"
+```
+
+3. Restart the service.
+
+```sh
+systemctl daemon-reload
+systemctl restart-ollama
+```
+
+### Windows
+
+1. Quit Ollama from the taskbar.
+
+2. Press **Start** and type `environment variables`.
+
+3. Click **Edit the environment variables**.
+
+4. Click **Environment Variables...**.
+
+5. Under **System variables**, click **New...**.
+
+6. For **Variable name**, enter `OLLAMA_ORIGINS`.
+
+7. For **Variable value**, enter `https://travishorn.github.io`.
+
+8. Click **OK** on each window to save the settings and close them.
+
+9. Open a _new_ (close out of any already-open) terminal and run `ollama serve`.
+
 ## To Do
 
-- Deploy
 - Cancel completion
 - More complete JSDoc comments
 - Complete README & package.json
