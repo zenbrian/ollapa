@@ -65,7 +65,7 @@
 	});
 
 	$effect(() => {
-		if (chatContainer && (currentResponse || selectedChat?.messages)) {
+		if (chatContainer && (isTyping || currentResponse || selectedChat?.messages)) {
 			chatContainer.scrollTop = chatContainer.scrollHeight;
 		}
 	});

@@ -100,9 +100,10 @@ export async function addMessage(chatId, message) {
  *
  * @param {string} model
  * @param {App.Message[]} messages
+ * @param {function|null|undefined} onChunk
  * @returns
  */
-export async function getChatCompletion(model, messages) {
+export async function getChatCompletion(model, messages, onChunk) {
 	const response = await fetch(`${get(apiUrl)}/api/chat`, {
 		method: 'POST',
 		headers: {
@@ -138,8 +139,8 @@ export async function getChatCompletion(model, messages) {
 				chatCompletion += data.message?.content || '';
 
 				// Callback to update the UI in real-time
-				if (typeof arguments[2] === 'function') {
-					arguments[2](chatCompletion);
+				if (typeof onChunk === 'function') {
+					onChunk(chatCompletion);
 				}
 			}
 		}
