@@ -7,7 +7,7 @@
 An Ollama client built with Svelte 5 and SvelteKit. Chat completely local and
 client-side with a friendly interface!
 
-Visit [ollapa.chat](http://ollapa.chat)
+Visit [ollapa.chat](https://ollapa.chat)
 
 > [!IMPORTANT]
 > You can interact with the chat client directly at the URL above, but you must
