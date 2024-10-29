@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { marked } from 'marked';
 	import DOMPurify from 'dompurify';
 	import { PaperAirplaneIcon } from 'heroicons-svelte/20/solid';
@@ -125,7 +126,7 @@
 					timestamp: new Date()
 				});
 
-				await goto(`/chat/${chat.id}`);
+				await goto(`${base}/chat/${chat.id}`);
 			} catch (error) {
 				console.error('Failed to create chat:', error);
 				// TODO: show error to user
@@ -180,6 +181,7 @@
 						<span class="prose prose-neutral prose-invert inline-block p-2">
 							{#if currentResponse}
 								{@html parseMarkdown(currentResponse)}
+								<ThinkingSpinner class="inline h-4 w-4" />
 							{:else}
 								Thinking
 								<ThinkingSpinner class="inline h-4 w-4" />

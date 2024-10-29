@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 	import { XMarkIcon, Cog6ToothIcon } from 'heroicons-svelte/20/solid';
 	import {
 		chats,
@@ -27,7 +28,7 @@
 			await stDeleteChat(id);
 
 			if ($page.params.chatId === id) {
-				goto('/');
+				goto(`${base}/`);
 			}
 		} catch (error) {
 			console.error('Failed to delete conversation:', error);
@@ -41,13 +42,13 @@
 		<div class="mb-4 flex gap-1">
 			<a
 				title="Settings"
-				href="/settings"
+				href="{base}/settings"
 				class="flex w-10 items-center justify-center rounded hover:bg-neutral-800"
 			>
 				<Cog6ToothIcon class="h-4 w-4" />
 			</a>
 			<a
-				href="/"
+				href="{base}/"
 				class={`block w-full rounded bg-blue-500 p-2 text-center text-white hover:bg-blue-600 ${$page.route.id === '/' ? 'invisible' : 'visible'}`}
 			>
 				New chat
@@ -64,7 +65,7 @@
 							? 'bg-neutral-800'
 							: 'hover:bg-neutral-800'}"
 					>
-						<a class="flex-grow cursor-pointer truncate p-2 text-left" href={`/chat/${chat.id}`}>
+						<a class="flex-grow cursor-pointer truncate p-2 text-left" href="{base}/chat/{chat.id}">
 							{chat.title}
 						</a>
 
