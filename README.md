@@ -1,6 +1,6 @@
-<div style="text-align:center">
+<p align="center">
   <img alt="The Ollapa logo; the head of a llama" src="src/lib/assets/llama-head.webp" style="width:128px;height:128px" />
-</div>
+</p>
 
 # Ollapa
 
