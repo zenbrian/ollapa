@@ -4,6 +4,7 @@
 	import { base } from '$app/paths';
 	import { marked } from 'marked';
 	import DOMPurify from 'dompurify';
+	import WelcomeScreen from './WelcomeScreen.svelte';
 	import { PaperAirplaneIcon } from 'heroicons-svelte/20/solid';
 	import ThinkingSpinner from './ThinkingSpinner.svelte';
 	import { setError } from '$lib/stores/errors.js';
@@ -220,6 +221,8 @@
 					</div>
 				{/if}
 			</div>
+		{:else}
+			<WelcomeScreen />
 		{/if}
 	</div>
 

@@ -4,11 +4,12 @@ Ollama client built with Svelte 5 and SvelteKit.
 
 https://ollapa.chat
 
-## Usage
+## Configure the Domain as a Valid Origin
 
-When accessing from the web, you must set the `OLLAMA_ORIGINS` environment
-variable so that your local Ollama REST API server accepts connections from the
-external domain.
+When accessing this client from the web, you must set the `OLLAMA_ORIGINS`
+environment variable on your local machine so that your locally running Ollama
+REST API server accepts connections from the external domain
+https://ollapa.chat.
 
 ### macOS
 
@@ -64,7 +65,6 @@ systemctl restart-ollama
 
 - Cancel completion
 - Complete README & package.json
-- Splash screen
 - Storage meter
 - Conditional autoscroll
 - Line breaks in input
