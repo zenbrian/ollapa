@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import { XMarkIcon, Cog6ToothIcon } from 'heroicons-svelte/20/solid';
+	import { setError } from '$lib/stores/errors.js';
 	import {
 		chats,
 		isLoading,
@@ -12,7 +13,12 @@
 	} from '$lib/stores/chats';
 
 	onMount(() => {
-		stGetChats();
+		try {
+			stGetChats();
+		} catch (error) {
+			console.error('Failed to load chats:', error);
+			setError('Failed to load chats.');
+		}
 	});
 
 	let sortedChats = $derived(
@@ -35,7 +41,7 @@
 			}
 		} catch (error) {
 			console.error('Failed to delete conversation:', error);
-			// TODO: show error to user
+			setError('Failed to delete conversation.');
 		}
 	}
 </script>

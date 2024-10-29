@@ -2,6 +2,8 @@
 	import '@fontsource-variable/inter';
 	import '../app.css';
 	import Sidebar from '$lib/components/Sidebar.svelte';
+	import ErrorMessage from '$lib/components/ErrorMessage.svelte';
+
 	let { children } = $props();
 </script>
 
@@ -15,3 +17,5 @@
 		{@render children()}
 	</main>
 </div>
+
+<ErrorMessage />

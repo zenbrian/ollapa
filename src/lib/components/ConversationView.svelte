@@ -6,6 +6,7 @@
 	import DOMPurify from 'dompurify';
 	import { PaperAirplaneIcon } from 'heroicons-svelte/20/solid';
 	import ThinkingSpinner from './ThinkingSpinner.svelte';
+	import { setError } from '$lib/stores/errors.js';
 	import {
 		addMessage as stAddMessage,
 		addChat as stAddChat,
@@ -31,7 +32,14 @@
 
 	onMount(async () => {
 		if (!selectedChat) {
-			await stFetchAvailableModels();
+			try {
+				await stFetchAvailableModels();
+			} catch (error) {
+				console.error('Failed to fetch available models:', error);
+				setError(
+					'Failed to fetch available models. Make sure Ollama server is running locally and that you have configured this domain as a valid origin.'
+				);
+			}
 		}
 
 		if (selectedChat && selectedChat.messages.length === 1) {
@@ -55,7 +63,7 @@
 				});
 			} catch (error) {
 				console.error('Failed to get chat completion:', error);
-				// TODO: show error to user
+				setError('Failed to get chat completion.');
 			} finally {
 				isTyping = false;
 				currentResponse = '';
@@ -114,7 +122,7 @@
 				});
 			} catch (error) {
 				console.error('Failed to send message:', error);
-				// TODO: show error to user
+				setError('Failed to send message.');
 			} finally {
 				isTyping = false;
 				currentResponse = '';
@@ -142,7 +150,7 @@
 				await goto(`${base}/chat/${chat.id}`);
 			} catch (error) {
 				console.error('Failed to create chat:', error);
-				// TODO: show error to user
+				setError('Failed to create chat.');
 			}
 		}
 	}

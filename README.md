@@ -63,9 +63,7 @@ systemctl restart-ollama
 ## To Do
 
 - Cancel completion
-- More complete JSDoc comments
 - Complete README & package.json
-- Other TODO comments in code
 - Splash screen
 - Storage meter
 - Conditional autoscroll
