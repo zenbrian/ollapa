@@ -38,7 +38,7 @@
 			} catch (error) {
 				console.error('Failed to fetch available models:', error);
 				setError(
-					'Failed to fetch available models. Make sure Ollama server is running locally and that you have configured this domain as a valid origin.'
+					'Failed to fetch available models. Make sure your Ollama server is configured correctly.'
 				);
 			}
 		}

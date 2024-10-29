@@ -1,15 +1,33 @@
+<div style="text-align:center">
+  <img alt="The Ollapa logo; the head of a llama" src="src/lib/assets/llama-head.webp" style="width:128px;height:128px" />
+</div>
+
 # Ollapa
 
-Ollama client built with Svelte 5 and SvelteKit.
+An Ollama client built with Svelte 5 and SvelteKit. Chat completely local and
+client-side with a friendly interface!
 
-https://ollapa.chat
+Visit [ollapa.chat](http://ollapa.chat)
 
-## Configure the Domain as a Valid Origin
+> [!IMPORTANT]
+> You can interact with the chat client directly at the URL above, but you must
+> first configure your locally-running Ollama server. See below.
 
-When accessing this client from the web, you must set the `OLLAMA_ORIGINS`
-environment variable on your local machine so that your locally running Ollama
-REST API server accepts connections from the external domain
-https://ollapa.chat.
+## Configure Your Ollama Server
+
+First, [you must have Ollama installed](https://ollama.com/).
+
+Then, you must have at least one model installed. Example:
+
+```sh
+ollama pull llama3.2
+```
+
+Finally, if you are accessing Ollapa client from the web at https://ollapa.chat,
+you must set the `OLLAMA_ORIGINS` environment variable on your local machine so
+that your locally running Ollama REST API server accepts connections from the
+external domain https://ollapa.chat. Instructions for macOS, Linux, and Windows
+are as follows:
 
 ### macOS
 
@@ -61,13 +79,53 @@ systemctl restart-ollama
 
 9. Open a _new_ (close out of any already-open) terminal and run `ollama serve`.
 
-## To Do
+## Local Server
 
-- Cancel completion
-- Complete README & package.json
-- Storage meter
-- Conditional autoscroll
-- Line breaks in input
+You don't have to use [ollapa.chat](https://ollapa.chat). You can run this client locally if you wish.
+
+Make sure [Node.js](https://nodejs.org) and [git](https://git-scm.com/) are installed.
+
+Clone this repository.
+
+```sh
+git clone https://github.com/travishorn/ollapa
+```
+
+Change into the directory.
+
+```sh
+cd ollapa
+```
+
+Install the dependencies.
+
+```sh
+npm install
+```
+
+Run the development server.
+
+```sh
+npm run dev
+```
+
+Visit http://localhost:5173 to access the client in your web browser.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+If you modify the code, kindly...
+
+- `npm run format` to ensure consistency across the codebase.
+- `npm run lint` to ensure there are no linting errors.
+
+## Roadmap
+
+- Feature: cancel completion
+- Feature: storage meter
+- Feature: allow line breaks in input
+- Fix: autoscroll only when already at chat bottom
 
 ## License
 

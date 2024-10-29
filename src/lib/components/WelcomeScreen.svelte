@@ -10,10 +10,11 @@
 	<div>
 		<ul class="mx-auto flex max-w-md list-disc flex-col gap-8">
 			<li>
-				Make sure Ollama server is running locally and that you have <a
+				Make sure your Ollama server is
+				<a
 					class="underline"
-					href="https://github.com/travishorn/ollapa?tab=readme-ov-file#configure-the-domain-as-a-valid-origin"
-					>configured this domain as a valid origin</a
+					href="https://github.com/travishorn/ollapa?tab=readme-ov-file#configure-your-ollama-server"
+					>configured correctly</a
 				>.
 			</li>
 			<li>Choose a model from your locally installed models in the dropdown menu above.</li>
