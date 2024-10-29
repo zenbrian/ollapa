@@ -1,6 +1,6 @@
 import { openDB } from 'idb';
 
-const DB_NAME = 'OllamaClient';
+const DB_NAME = 'Ollapa';
 const DB_VERSION = 1;
 const STORE_NAME = 'chats';
 

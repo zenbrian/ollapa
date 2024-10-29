@@ -1,6 +1,8 @@
-# Ollama Client
+# Ollapa
 
 Ollama client built with Svelte 5 and SvelteKit.
+
+https://ollapa.chat
 
 ## Usage
 
@@ -13,7 +15,7 @@ external domain.
 Use `launchctl` to set the environment variable.
 
 ```sh
-launchctl setenv OLLAMA_ORIGINS "https://travishorn.github.io"
+launchctl setenv OLLAMA_ORIGINS "https://ollapa.chat"
 ```
 
 ### Linux
@@ -28,7 +30,7 @@ systemctl edit ollama.service
 
 ```
 [Service]
-Environment="OLLAMA_ORIGINS=https://travishorn.github.io"
+Environment="OLLAMA_ORIGINS=https://ollapa.chat"
 ```
 
 3. Restart the service.
@@ -52,7 +54,7 @@ systemctl restart-ollama
 
 6. For **Variable name**, enter `OLLAMA_ORIGINS`.
 
-7. For **Variable value**, enter `https://travishorn.github.io`.
+7. For **Variable value**, enter `https://ollapa.chat`.
 
 8. Click **OK** on each window to save the settings and close them.
 

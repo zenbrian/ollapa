@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-	<title>Ollama Client</title>
+	<title>Ollapa</title>
 </svelte:head>
 
 <div class="flex h-screen bg-neutral-800 text-neutral-100">
