@@ -40,7 +40,8 @@ export async function fetchAvailableModels() {
 			throw new Error('Failed to fetch available models');
 		}
 		const data = await response.json();
-		availableModels.set(data.models.map((/** @type {Ollama.Model} */ model) => model.name));
+		const models = data.models.map((/** @type {Ollama.Model} */ model) => model.name).sort();
+		availableModels.set(models);
 	} catch (error) {
 		console.error('Error fetching available models:', error);
 		availableModels.set([]);
