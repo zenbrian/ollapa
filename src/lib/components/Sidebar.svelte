@@ -20,8 +20,11 @@
 	);
 
 	/**
+	 * Handles the delete chat event. Will navigate the user to home if the currently selected chat
+	 * was deleted.
 	 *
-	 * @param {IDBValidKey} id
+	 * @param {IDBValidKey} id - The ID of the chat to delete.
+	 * @returns {Promise<void>} A promise that resolves when the send operation has completed.
 	 */
 	async function handleDeleteChat(id) {
 		try {

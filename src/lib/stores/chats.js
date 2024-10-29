@@ -7,11 +7,28 @@ import {
 	addMessage as dbAddMessage
 } from '$lib/db';
 
-/** @type {import('svelte/store').Writable<App.Chat[]>} */
+/**
+ * A writable store containing the list of chats.
+ * @type {import('svelte/store').Writable<App.Chat[]>}
+ */
 export const chats = writable([]);
 
+/**
+ * A writable store indicating whether the chats are currently loading.
+ * @type {import('svelte/store').Writable<boolean>}
+ */
 export const isLoading = writable(true);
+
+/**
+ * A writable store containing the list of available models.
+ * @type {import('svelte/store').Writable<string[]>}
+ */
 export const availableModels = writable([]);
+
+/**
+ * A writable store containing the API URL.
+ * @type {import('svelte/store').Writable<string>}
+ */
 export const apiUrl = writable(
 	browser ? localStorage.getItem('apiUrl') || 'http://localhost:11434' : 'http://localhost:11434'
 );
@@ -22,6 +39,10 @@ if (browser) {
 	});
 }
 
+/**
+ * Retrieves the list of chats from the database and updates the store.
+ * @returns {Promise<void>}
+ */
 export async function getChats() {
 	isLoading.set(true);
 	try {
@@ -33,6 +54,10 @@ export async function getChats() {
 	}
 }
 
+/**
+ * Fetches the list of available models from the API and updates the store.
+ * @returns {Promise<void>}
+ */
 export async function fetchAvailableModels() {
 	try {
 		const response = await fetch(`${get(apiUrl)}/api/tags`);
@@ -49,9 +74,10 @@ export async function fetchAvailableModels() {
 }
 
 /**
+ * Adds a new chat to the database and updates the store.
  *
- * @param {string} title
- * @param {string} model
+ * @param {string} title - The title of the chat.
+ * @param {string} model - The model associated with the chat.
  * @returns {Promise<App.Chat>}
  */
 export async function addChat(title, model) {
@@ -66,8 +92,10 @@ export async function addChat(title, model) {
 }
 
 /**
+ * Deletes a chat from the database and updates the store.
  *
- * @param {IDBValidKey} id
+ * @param {IDBValidKey} id - The ID of the chat to delete.
+ * @returns {Promise<void>}
  */
 export async function deleteChat(id) {
 	try {
@@ -80,9 +108,10 @@ export async function deleteChat(id) {
 }
 
 /**
+ * Adds a new message to a chat in the database and updates the store.
  *
- * @param {IDBValidKey} chatId
- * @param {App.Message} message
+ * @param {IDBValidKey} chatId - The ID of the chat to add the message to.
+ * @param {App.Message} message - The message to add.
  * @returns {Promise<App.Chat>}
  */
 export async function addMessage(chatId, message) {
@@ -97,11 +126,12 @@ export async function addMessage(chatId, message) {
 }
 
 /**
+ * Retrieves a chat completion from the API.
  *
- * @param {string} model
- * @param {App.Message[]} messages
- * @param {function|null|undefined} onChunk
- * @returns
+ * @param {string} model - The model to use for the chat completion.
+ * @param {App.Message[]} messages - The messages to use as input for the chat completion.
+ * @param {function|null|undefined} onChunk - A callback function to update the UI in real-time.
+ * @returns {Promise<string>}
  */
 export async function getChatCompletion(model, messages, onChunk) {
 	const response = await fetch(`${get(apiUrl)}/api/chat`, {

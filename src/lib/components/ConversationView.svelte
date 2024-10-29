@@ -36,7 +36,6 @@
 
 		if (selectedChat && selectedChat.messages.length === 1) {
 			// This chat was just created. Get chat completion for first message.
-
 			try {
 				isTyping = true;
 				currentResponse = '';
@@ -71,14 +70,22 @@
 	});
 
 	/**
+	 * Parses Markdown into HTML and then sanitizes it.
 	 *
-	 * @param {string} content
+	 * @param {string} content - The Markdown content to parse and sanitize.
+	 * @returns {string} The sanitized HTML content.
 	 */
 	function parseMarkdown(content) {
 		const rawHtml = String(marked(content));
 		return DOMPurify.sanitize(rawHtml);
 	}
 
+	/**
+	 * Adds a new message to the current chat.
+	 *
+	 * @async
+	 * @returns {Promise<void>} A promise that resolves when the message has been added.
+	 */
 	async function addMessage() {
 		if (newMessageContent.trim() && selectedChat) {
 			try {
@@ -115,6 +122,12 @@
 		}
 	}
 
+	/**
+	 * Creates a new chat with the new message content and selected model.
+	 *
+	 * @async
+	 * @returns {Promise<void>} A promise that resolves when the chat has been created.
+	 */
 	async function addChat() {
 		if (newMessageContent.trim()) {
 			try {
@@ -134,6 +147,15 @@
 		}
 	}
 
+	/**
+	 * Handles the send event (either button click event or Enter keypress).
+	 *
+	 * If a chat is currently selected, adds a new message to the chat.
+	 * Otherwise, creates a new chat with the new message content and model.
+	 *
+	 * @async
+	 * @returns {Promise<void>} A promise that resolves when the send operation has completed.
+	 */
 	async function handleSend() {
 		if (selectedChat) {
 			addMessage();

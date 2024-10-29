@@ -4,6 +4,7 @@
 
 	/**
 	 * Handles the input event for the Ollama API URL input field.
+	 *
 	 * @param {Event} e - The input event.
 	 * @property {HTMLInputElement} e.target - The input element that triggered the event.
 	 */
