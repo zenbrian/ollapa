@@ -167,9 +167,9 @@
 	 */
 	async function handleSend() {
 		if (selectedChat) {
-			addMessage();
+			await addMessage();
 		} else {
-			addChat();
+			await addChat();
 		}
 	}
 </script>
@@ -200,7 +200,7 @@
 								? 'bg-neutral-700'
 								: ''}"
 						>
-							<!-- parseMarkdown() santizes HTML with DOMPurify. Using @html is safe with it -->
+							<!-- parseMarkdown() sanitizes HTML with DOMPurify. Using @html is safe with it -->
 							<!-- eslint-disable svelte/no-at-html-tags -->
 							{@html parseMarkdown(message.content)}
 						</span>

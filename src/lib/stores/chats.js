@@ -25,13 +25,14 @@ export const isLoading = writable(true);
  */
 export const availableModels = writable([]);
 
+const defaultApiUrl = 'http://localhost:11434';
+const storedApiUrl = browser ? localStorage.getItem('apiUrl') : null;
+
 /**
  * A writable store containing the API URL.
  * @type {import('svelte/store').Writable<string>}
  */
-export const apiUrl = writable(
-	browser ? localStorage.getItem('apiUrl') || 'http://localhost:11434' : 'http://localhost:11434'
-);
+export const apiUrl = writable(storedApiUrl || defaultApiUrl);
 
 if (browser) {
 	apiUrl.subscribe((value) => {
