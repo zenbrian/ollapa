@@ -172,6 +172,28 @@
 			addChat();
 		}
 	}
+
+	/**
+	 * Handles the keypress event on the message input textarea. If the Enter key
+	 * is pressed without the Shift key, sends the message. Also adjusts the
+	 * textarea height to fit the content.
+	 *
+	 * @param {KeyboardEvent} e - The keypress event.
+	 */
+	async function handleKeypress(e) {
+		/** @type {HTMLTextAreaElement|null} */
+		const target = e.target instanceof HTMLTextAreaElement ? e.target : null;
+
+		if (target) {
+			if (e.key === 'Enter' && !e.shiftKey) {
+				await handleSend();
+				target.style.height = 'auto';
+			} else {
+				target.style.height = 'auto';
+				target.style.height = `${target.scrollHeight}px`;
+			}
+		}
+	}
 </script>
 
 <div class="flex h-full flex-col">
@@ -227,14 +249,14 @@
 	</div>
 
 	<div class={`mx-auto flex w-full max-w-2xl ${isTyping ? 'opacity-30' : ''}`}>
-		<input
-			type="text"
+		<textarea
 			bind:value={newMessageContent}
 			placeholder="Type your message..."
+			rows="1"
 			class="flex-grow rounded-l bg-neutral-700 p-2 outline-none"
 			disabled={isTyping}
-			onkeypress={(e) => e.key === 'Enter' && handleSend()}
-		/>
+			onkeypress={(e) => handleKeypress(e)}
+		></textarea>
 		<button
 			onclick={handleSend}
 			title="Send"

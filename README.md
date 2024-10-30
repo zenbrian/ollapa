@@ -124,7 +124,6 @@ If you modify the code, kindly...
 
 - Feature: cancel completion
 - Feature: storage meter
-- Feature: allow line breaks in input
 - Feature: connected to Ollama API status
 - Fix: autoscroll only when already at chat bottom
 
