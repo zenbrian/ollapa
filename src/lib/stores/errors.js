@@ -6,6 +6,9 @@ import { writable } from 'svelte/store';
  */
 export const errorStore = writable(null);
 
+/** @type {NodeJS.Timeout|null} */
+let timeout;
+
 /**
  * Set an error message to be displayed app-wide.
  *
@@ -13,6 +16,8 @@ export const errorStore = writable(null);
  */
 export function setError(message) {
 	errorStore.set(message);
+	if (timeout) clearTimeout(timeout);
+	timeout = setTimeout(clearError, 5000);
 }
 
 /**

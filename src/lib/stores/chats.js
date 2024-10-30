@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
 import { writable, get } from 'svelte/store';
+import { setError } from './errors';
 import {
 	getChats as dbGetChats,
 	addChat as dbAddChat,
@@ -50,6 +51,7 @@ export async function getChats() {
 		chats.set(await dbGetChats());
 	} catch (error) {
 		console.error('Failed to load chats:', error);
+		setError('Failed to load chats.');
 	} finally {
 		isLoading.set(false);
 	}
@@ -69,7 +71,10 @@ export async function fetchAvailableModels() {
 		const models = data.models.map((/** @type {Ollama.Model} */ model) => model.name).sort();
 		availableModels.set(models);
 	} catch (error) {
-		console.error('Error fetching available models:', error);
+		console.error('Failed to fetch available models:', error);
+		setError(
+			'Failed to fetch available models. Make sure your Ollama server is configured correctly.'
+		);
 		availableModels.set([]);
 	}
 }
@@ -88,6 +93,7 @@ export async function addChat(title, model) {
 		return newChat;
 	} catch (error) {
 		console.error('Failed to create chat:', error);
+		setError('Failed to create chat.');
 		throw error;
 	}
 }
@@ -103,7 +109,8 @@ export async function deleteChat(id) {
 		await dbDeleteChat(id);
 		chats.update((cs) => cs.filter((chat) => chat.id !== id));
 	} catch (error) {
-		console.error('Failed to delete conversation:', error);
+		console.error('Failed to delete chat:', error);
+		setError('Failed to delete chat.');
 		throw error;
 	}
 }
@@ -122,6 +129,7 @@ export async function addMessage(chatId, message) {
 		return updatedChat;
 	} catch (error) {
 		console.error('Failed to add message:', error);
+		setError('Failed to add message.');
 		throw error;
 	}
 }

@@ -2,26 +2,6 @@
 	import { errorStore, clearError } from '$lib/stores/errors.js';
 	import { XMarkIcon } from 'heroicons-svelte/20/solid';
 	import { fade } from 'svelte/transition';
-
-	let timeoutId = $state(0);
-
-	$effect(() => {
-		if ($errorStore) {
-			if (timeoutId) clearTimeout(timeoutId);
-
-			timeoutId = setTimeout(() => {
-				clearError();
-			}, 5000);
-		}
-	});
-
-	/**
-	 * Handles the dismiss event, which clears the error message and its timeout.
-	 */
-	function handleDismiss() {
-		clearError();
-		if (timeoutId) clearTimeout(timeoutId);
-	}
 </script>
 
 {#if $errorStore}
@@ -34,7 +14,7 @@
 		<div class="flex items-center justify-between rounded-lg bg-red-500 p-4 text-white shadow-lg">
 			<p>{$errorStore}</p>
 			<button
-				onclick={handleDismiss}
+				onclick={clearError}
 				class="ml-4 rounded text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white"
 				aria-label="Dismiss error message"
 			>
