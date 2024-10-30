@@ -13,17 +13,21 @@
 	}
 </script>
 
-<h2 class="mb-4 text-xl font-bold">Settings</h2>
+<div class="mx-auto max-w-2xl py-10">
+	<h2 class="mb-4 text-xl font-bold">Settings</h2>
 
-<div class="flex flex-col gap-4">
-	<div class="flex flex-col gap-2">
-		<label for="api-url">Ollama API URL</label>
-		<input
-			id="api-url"
-			class="flex-grow rounded bg-neutral-700 p-2"
-			type="text"
-			value={$apiUrl}
-			oninput={handleApiUrlInput}
-		/>
+	<div class="flex flex-col gap-4">
+		<div class="flex flex-col gap-2">
+			<label for="api-url">Ollama API URL</label>
+			<input
+				id="api-url"
+				class="flex-grow rounded bg-neutral-700 p-2"
+				type="text"
+				value={$apiUrl}
+				oninput={handleApiUrlInput}
+			/>
+		</div>
 	</div>
+
+	<div class="mt-16 text-sm italic text-neutral-500">Settings saved automatically.</div>
 </div>

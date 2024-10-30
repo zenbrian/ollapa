@@ -73,7 +73,7 @@
 	});
 
 	$effect(() => {
-		if (chatContainer && (isTyping || currentResponse || selectedChat?.messages)) {
+		if (chatContainer && (currentResponse || selectedChat?.messages)) {
 			chatContainer.scrollTop = chatContainer.scrollHeight;
 		}
 	});
@@ -226,18 +226,20 @@
 		{/if}
 	</div>
 
-	<div class="mx-auto flex w-full max-w-2xl">
+	<div class={`mx-auto flex w-full max-w-2xl ${isTyping ? 'opacity-30' : ''}`}>
 		<input
 			type="text"
 			bind:value={newMessageContent}
 			placeholder="Type your message..."
 			class="flex-grow rounded-l bg-neutral-700 p-2 outline-none"
+			disabled={isTyping}
 			onkeypress={(e) => e.key === 'Enter' && handleSend()}
 		/>
 		<button
 			onclick={handleSend}
 			title="Send"
-			class="rounded-r bg-blue-500 p-2 text-white hover:bg-blue-600"
+			class={`rounded-r bg-blue-500 p-2 text-white ${isTyping ? '' : 'hover:bg-blue-600'}`}
+			disabled={isTyping}
 		>
 			<PaperAirplaneIcon class="h-6 w-6" />
 		</button>
