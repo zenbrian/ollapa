@@ -167,9 +167,9 @@
 	 */
 	async function handleSend() {
 		if (selectedChat) {
-			await addMessage();
+			addMessage();
 		} else {
-			await addChat();
+			addChat();
 		}
 	}
 </script>
