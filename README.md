@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="The Ollapa logo; the head of a llama" src="src/lib/assets/llama-head.webp" style="width:128px;height:128px" />
+  <img alt="The Ollapa logo; Stylized black-and-white line drawing of a llama's head with bold outlines and simple shading." src="src/lib/assets/ollapa-logo.webp" style="width:128px;height:128px" />
 </p>
 
 # Ollapa

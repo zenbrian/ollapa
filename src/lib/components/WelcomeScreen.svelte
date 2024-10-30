@@ -1,9 +1,13 @@
 <script>
-	import llamaHead from '$lib/assets/llama-head.webp';
+	import logo from '$lib/assets/ollapa-logo.webp';
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center gap-10">
-	<img class="h-32 w-32" alt="The Ollapa logo; the head of a llama" src={llamaHead} />
+	<img
+		class="h-32 w-32"
+		alt="The Ollapa logo; Stylized black-and-white line drawing of a llama's head with bold outlines and simple shading."
+		src={logo}
+	/>
 
 	<h1 class="text-4xl font-bold">Welcome!</h1>
 
