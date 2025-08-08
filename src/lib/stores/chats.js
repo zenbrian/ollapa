@@ -35,9 +35,24 @@ const storedApiUrl = browser ? localStorage.getItem('apiUrl') : null;
  */
 export const apiUrl = writable(storedApiUrl || defaultApiUrl);
 
+const defaultEnableThinkingMode = true;
+const storedEnableThinkingMode = browser ? localStorage.getItem('enableThinkingMode') : null;
+
+/**
+ * A writable store indicating whether thinking mode is enabled.
+ * @type {import('svelte/store').Writable<boolean>}
+ */
+export const enableThinkingMode = writable(
+	storedEnableThinkingMode !== null ? JSON.parse(storedEnableThinkingMode) : defaultEnableThinkingMode
+);
+
 if (browser) {
 	apiUrl.subscribe((value) => {
 		localStorage.setItem('apiUrl', value);
+	});
+
+	enableThinkingMode.subscribe((value) => {
+		localStorage.setItem('enableThinkingMode', JSON.stringify(value));
 	});
 }
 
@@ -143,12 +158,28 @@ export async function addMessage(chatId, message) {
  * @returns {Promise<string>}
  */
 export async function getChatCompletion(model, messages, onChunk) {
+	// Create a copy of messages to avoid modifying the original array
+	let processedMessages = [...messages];
+	
+	// Add "/no_think" to the last message if thinking mode is disabled
+	if (!get(enableThinkingMode) && processedMessages.length > 0) {
+		const lastMessage = processedMessages[processedMessages.length - 1];
+		// Only modify user messages to avoid interfering with assistant responses
+		if (lastMessage.role === 'user') {
+			processedMessages = [...processedMessages];
+			processedMessages[processedMessages.length - 1] = {
+				...lastMessage,
+				content: lastMessage.content + '/no_think'
+			};
+		}
+	}
+
 	const response = await fetch(`${get(apiUrl)}/api/chat`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({ model, messages })
+		body: JSON.stringify({ model, messages: processedMessages })
 	});
 
 	if (!response.ok) {
