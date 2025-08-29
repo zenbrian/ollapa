@@ -4,19 +4,19 @@
 
 <div class="flex h-full w-full flex-col items-center justify-center gap-10">
 	<img
-		class="h-32 w-32"
+		class="h-32 w-32 shadow-soft rounded-lg"
 		alt="The Ollapa logo; Stylized black-and-white line drawing of a llama's head with bold outlines and simple shading."
 		src={logo}
 	/>
 
-	<h1 class="text-4xl font-bold">Welcome!</h1>
+	<h1 class="text-4xl font-bold text-Font">Welcome!</h1>
 
 	<div>
-		<ul class="mx-auto flex max-w-md list-disc flex-col gap-8">
+		<ul class="mx-auto flex max-w-md list-disc flex-col gap-8 text-Font">
 			<li>
 				Make sure your Ollama server is
 				<a
-					class="underline"
+					class="text-Button underline hover:text-ButtonHover transition-colors"
 					href="https://github.com/travishorn/ollapa?tab=readme-ov-file#configure-your-ollama-server"
 					>configured correctly</a
 				>.

@@ -46,41 +46,41 @@
 	}
 </script>
 
-<aside class="w-64 bg-neutral-900">
+<aside class="w-64 bg-Sidebarbg border-r border-Border shadow-soft">
 	<div class="p-4">
 		<div class="mb-4 flex gap-1">
 			<a
 				title="Settings"
 				href="{base}/settings"
-				class="flex w-10 items-center justify-center rounded hover:bg-neutral-800"
+				class="flex w-10 items-center justify-center rounded text-FontSecondary hover:bg-SidebarHover hover:text-Font transition-colors"
 			>
 				<Cog6ToothIcon class="h-4 w-4" />
 			</a>
 			<a
 				href="{base}/"
-				class={`block w-full rounded bg-blue-500 p-2 text-center text-white hover:bg-blue-600 ${$page.route.id === '/' ? 'invisible' : 'visible'}`}
+				class={`block w-full rounded bg-Button p-2 text-center text-white hover:bg-ButtonHover transition-colors ${$page.route.id === '/' ? 'invisible' : 'visible'}`}
 			>
 				New chat
 			</a>
 		</div>
 
 		{#if $isLoading}
-			<p>Loading chats...</p>
+			<p class="text-FontSecondary text-sm">Loading chats...</p>
 		{:else}
 			<div class="flex flex-col gap-1">
 				{#each sortedChats as chat (chat.id)}
 					<div
-						class="flex rounded {$page.params.chatId === chat.id
-							? 'bg-neutral-800'
-							: 'hover:bg-neutral-800'}"
+						class="flex rounded transition-colors {$page.params.chatId === chat.id
+							? 'bg-SidebarActive shadow-card'
+							: 'hover:bg-SidebarHover'}"
 					>
-						<a class="flex-grow cursor-pointer truncate p-2 text-left" href="{base}/chat/{chat.id}">
+						<a class="flex-grow cursor-pointer truncate p-2 text-left text-Font hover:text-Button transition-colors" href="{base}/chat/{chat.id}">
 							{chat.title}
 						</a>
 
 						<button
 							onclick={() => handleDeleteChat(chat.id)}
-							class="ml-2 flex-none rounded px-2 py-1 text-neutral-500 hover:text-white"
+							class="ml-2 flex-none rounded px-2 py-1 text-FontSecondary hover:text-red-600 transition-colors"
 							title="Delete chat"
 						>
 							<XMarkIcon class="h-4 w-4" />

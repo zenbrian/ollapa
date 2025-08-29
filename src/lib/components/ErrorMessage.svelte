@@ -11,11 +11,11 @@
 		class="fixed right-4 top-4 z-50 max-w-md"
 		transition:fade={{ duration: 200 }}
 	>
-		<div class="flex items-center justify-between rounded-lg bg-red-500 p-4 text-white shadow-lg">
+		<div class="flex items-center justify-between rounded-lg bg-red-50 border border-red-200 p-4 text-red-800 shadow-lg">
 			<p>{$errorStore}</p>
 			<button
 				onclick={clearError}
-				class="ml-4 rounded text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white"
+				class="ml-4 rounded text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-200 transition-colors"
 				aria-label="Dismiss error message"
 			>
 				<XMarkIcon class="h-5 w-5" />

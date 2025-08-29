@@ -199,11 +199,11 @@
 <div class="flex h-full flex-col">
 	<div class="mb-4">
 		{#if selectedChat}
-			<div class="p-2 text-neutral-500">
+			<div class="p-2 text-FontSecondary bg-Sidebarbg rounded border border-Border">
 				{selectedChat.model}
 			</div>
 		{:else}
-			<select class="rounded bg-neutral-700 p-2" bind:value={selectedModel}>
+			<select class="rounded bg-white border border-Border p-2 text-Font focus:border-Button focus:outline-none transition-colors" bind:value={selectedModel}>
 				{#each $stAvailableModels as model}
 					<option>{model}</option>
 				{/each}
@@ -215,12 +215,12 @@
 		{#if selectedChat}
 			<div class="mx-auto max-w-2xl">
 				{#each selectedChat.messages as message}
-					<div class="mb-2 {message.role === 'user' ? 'text-right' : 'text-left'}">
+					<div class="mb-4 {message.role === 'user' ? 'text-right' : 'text-left'}">
 						<span
-							class="prose prose-neutral prose-invert inline-block rounded p-2 {message.role ===
+							class="prose prose-gray inline-block rounded p-3 shadow-card max-w-none {message.role ===
 							'user'
-								? 'bg-neutral-700'
-								: ''}"
+								? 'bg-MessageUser border border-Border'
+								: 'bg-MessageAssistant border border-Border'}"
 						>
 							<!-- parseMarkdown() sanitizes HTML with DOMPurify. Using @html is safe with it -->
 							<!-- eslint-disable svelte/no-at-html-tags -->
@@ -230,37 +230,37 @@
 				{/each}
 
 				{#if isTyping}
-					<div class="mb-2 text-left">
-						<span class="prose prose-neutral prose-invert inline-block p-2">
-							{#if currentResponse}
-								{@html parseMarkdown(currentResponse)}
-								<ThinkingSpinner class="inline h-4 w-4" />
-							{:else}
-								Thinking
-								<ThinkingSpinner class="inline h-4 w-4" />
-							{/if}
-						</span>
-					</div>
-				{/if}
+				 <div class="mb-4 text-left">
+				 <span class="prose prose-gray inline-block rounded p-3 shadow-card bg-MessageAssistant border border-Border max-w-none">
+				 {#if currentResponse}
+				 {@html parseMarkdown(currentResponse)}
+				 <ThinkingSpinner class="inline h-4 w-4 ml-2 text-Button" />
+				 {:else}
+				 <span class="text-FontSecondary">Thinking...</span>
+				 <ThinkingSpinner class="inline h-4 w-4 ml-2 text-Button" />
+				 {/if}
+				 </span>
+				 </div>
+				 {/if}
 			</div>
 		{:else}
 			<WelcomeScreen />
 		{/if}
 	</div>
 
-	<div class={`mx-auto flex w-full max-w-2xl ${isTyping ? 'opacity-30' : ''}`}>
+	<div class={`mx-auto flex w-full max-w-2xl ${isTyping ? 'opacity-50' : ''}`}>
 		<textarea
 			bind:value={newMessageContent}
 			placeholder="Type your message..."
 			rows="1"
-			class="flex-grow rounded-l bg-neutral-700 p-2 outline-none"
+			class="flex-grow rounded-l-lg bg-white border border-Border border-r-0 p-3 text-Font placeholder-FontSecondary focus:border-Button focus:outline-none transition-colors resize-none"
 			disabled={isTyping}
 			onkeypress={(e) => handleKeypress(e)}
 		></textarea>
 		<button
 			onclick={handleSend}
 			title="Send"
-			class={`rounded-r bg-blue-500 p-2 text-white ${isTyping ? '' : 'hover:bg-blue-600'}`}
+			class={`rounded-r-lg bg-Button border border-Button p-3 text-white transition-colors ${isTyping ? 'opacity-50 cursor-not-allowed' : 'hover:bg-ButtonHover'}`}
 			disabled={isTyping}
 		>
 			<PaperAirplaneIcon class="h-6 w-6" />
